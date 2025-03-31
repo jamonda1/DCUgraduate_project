@@ -46,12 +46,22 @@ public class UserService {
     }
 
     public UserResponseDto login(LoginRequestDto request) { // 로그인
+
+        //  이메일 로그를 보기 위해 출력
+        System.out.println("입력한 이메일: " + request.getEmail());
+
         User user = userRepository.findByEmail(request.getEmail())  // UserRepository에서 입력한 이메일을 가진 User를 찾는다.
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
 
+        //  비밀번호 로그 (입력값 & DB 저장값)
+        System.out.println("입력한 비밀번호: " + request.getPassword());
+        System.out.println("DB에 저장된 비밀번호: " + user.getPassword());
+
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {  // matches()를 통해 암호화된 비밀번호를 비교
+            System.out.println("비밀번호 불일치");
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
+        System.out.println("로그인 성공!");
 
         return UserResponseDto.from(user);  // 회원가입, 로그인에도 메인 화면 등에서 내 정보가 바로 필요할 때가 있다.
     }
