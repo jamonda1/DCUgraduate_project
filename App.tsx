@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native';
 import { Image } from 'react-native';
 import CustomTabBar from './screens/CustomTabBar';
 import { useNavigationState } from '@react-navigation/native';
+import { ScheduleProvider } from './screens/ScheduleContext';
 
 import HomeScreen from './screens/HomeScreen'; // 홈 화면
 import FeedScreen from './screens/FeedScreen'; // 피드 화면 추가
@@ -12,12 +13,16 @@ import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import MapScreen from './screens/MapScreen';
 import SearchScreen from './screens/SearchScreen';
+import CalendarScreen from './screens/CalendarScreen';
+import AddScheduleScreen from './screens/AddScheduleScreen';
+import EditScheduleScreen from './screens/EditScheduleScreen';
 
 const Stack = createStackNavigator();
 
 const App: React.FC = () => {
   return (
-    <NavigationContainer>
+    <ScheduleProvider>
+      <NavigationContainer>
        <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} options={{ title: '로그인' }} />
         <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '회원가입' }} />
@@ -33,9 +38,15 @@ const App: React.FC = () => {
         <Stack.Screen name="Feed" component={FeedScreen} options={{ title: '피드' }} />
         <Stack.Screen name="Map" component={MapScreen} options={{ title: '맵' }} />
         <Stack.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
-      </Stack.Navigator>
+        <Stack.Screen name="Calendar"component={CalendarScreen}options={{ title: '일정' }}/>
+        <Stack.Screen name="AddSchedule"component={AddScheduleScreen} options={{ title: '일정 추가' }}/>
+        <Stack.Screen name="EditSchedule" component={EditScheduleScreen} options={{ title: '일정 수정' }} />
+        </Stack.Navigator>
       <ConditionalTabBar />
     </NavigationContainer>
+
+    </ScheduleProvider>
+    
   );
 };
 const ConditionalTabBar: React.FC = () => {

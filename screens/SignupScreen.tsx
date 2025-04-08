@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import axios from 'axios';
 
 const SignupScreen: React.FC = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -8,14 +9,33 @@ const SignupScreen: React.FC = ({ navigation }) => {
   const [nickname, setNickname] = useState('');
   const [birthdate, setBirthdate] = useState('');
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
+    if (!email || !password || !passwordConfirm || !nickname || !birthdate) {
+      Alert.alert('모든 항목을 입력해주세요.');
+      return;
+    }
+
     if (password !== passwordConfirm) {
       Alert.alert('비밀번호가 일치하지 않습니다.');
       return;
     }
-    // 여기에 실제 저장 또는 API 호출 로직 삽입 가능
-    console.log('회원가입 정보', { email, password, nickname, birthdate });
-    Alert.alert('회원가입 완료!');
+/*
+    try {
+      const res = await axios.post('http://5/api/auth/register', {
+        email,
+        password,
+        nickname,
+        birthdate,
+      });
+
+      Alert.alert('회원가입 성공', '로그인 페이지로 이동합니다!');
+      navigation.navigate('Login');
+    } catch (error: any) {
+      console.error(error);
+      const message = error.response?.data?.message || '회원가입 중 오류가 발생했습니다.';
+      Alert.alert('회원가입 실패', message);
+    }
+  */
   };
 
   return (
@@ -74,38 +94,11 @@ const SignupScreen: React.FC = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 24,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 24,
-    textAlign: 'center',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
-    fontSize: 16,
-  },
-  signupButton: {
-    backgroundColor: '#FF6F61',
-    padding: 15,
-    borderRadius: 8,
-    marginTop: 10,
-  },
-  signupButtonText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
+  container: { flex: 1, justifyContent: 'center', paddingHorizontal: 24, backgroundColor: '#fff' },
+  title: { fontSize: 28, fontWeight: 'bold', marginBottom: 24, textAlign: 'center' },
+  input: { borderWidth: 1, borderColor: '#ccc', borderRadius: 8, padding: 12, marginBottom: 12, fontSize: 16 },
+  signupButton: { backgroundColor: '#FF6F61', padding: 15, borderRadius: 8, marginTop: 10 },
+  signupButtonText: { color: '#fff', textAlign: 'center', fontWeight: 'bold', fontSize: 16 },
 });
 
 export default SignupScreen;

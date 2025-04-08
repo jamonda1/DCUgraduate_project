@@ -1,6 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, Image, SafeAreaView } from 'react-native';
-
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+} from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // 👈 추가
 
 const dummyFeed = [
   { id: '1', image: 'https://via.placeholder.com/300x200', title: '피드 제목 1', desc: '여기는 피드 내용입니다.' },
@@ -8,13 +16,20 @@ const dummyFeed = [
   { id: '3', image: 'https://via.placeholder.com/300x200', title: '피드 제목 3', desc: '여기는 피드 내용입니다.' },
 ];
 
-
 const HomeScreen: React.FC = () => {
+  const navigation = useNavigation(); // 👈 네비게이션 객체
+
   return (
     <SafeAreaView style={styles.container}>
-      {/* 상단 오늘 일정 카드 */}
+      {/* 일정 카드 */}
       <View style={styles.scheduleCard}>
-        <Text style={styles.date}>12.24 화</Text>
+        <View style={styles.scheduleHeader}>
+          <Text style={styles.date}>12.24 화</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Calendar')}>
+            <Text style={styles.plusButton}>＋</Text>
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.scheduleList}>
           <Text style={styles.scheduleItem}>오사카 성</Text>
           <Text style={styles.scheduleItem}>맛집 투어</Text>
@@ -45,9 +60,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  // ✅ 일정 카드 스타일 개선
   scheduleCard: {
-    backgroundColor: '#FFECEB', // 연한 핑크 배경으로 강조
+    backgroundColor: '#FFECEB',
     borderRadius: 12,
     padding: 16,
     margin: 16,
@@ -55,13 +69,23 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    elevation: 4, // 안드로이드 그림자
+    elevation: 4,
+  },
+  scheduleHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
   },
   date: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#FF6F61',
-    marginBottom: 10,
+  },
+  plusButton: {
+    fontSize: 24,
+    color: '#FF6F61',
+    fontWeight: 'bold',
   },
   scheduleList: {
     borderTopWidth: 1,
@@ -73,8 +97,6 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     color: '#333',
   },
-
-  // 기존 피드 스타일 유지
   feedCard: {
     backgroundColor: '#fff',
     marginHorizontal: 16,
@@ -99,6 +121,5 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
 });
-
 
 export default HomeScreen;
