@@ -20,7 +20,17 @@ public class ImageService { // 이미지를 저장하는 class
         this.weatherService = weatherService;
     }
 
-    public String saveImage(MultipartFile file) throws IOException {    // 클라이언트가 업로드한 파일을 받는 메서드
+    public static class ImageResult {
+        public final String filename;
+        public final String weather;
+
+        public ImageResult(String filename, String weather) {
+            this.filename = filename;
+            this.weather = weather;
+        }
+    }
+
+    public ImageResult saveImage(MultipartFile file) throws IOException {    // 클라이언트가 업로드한 파일을 받는 메서드
         // 확장자 추출
         String originalFilename = file.getOriginalFilename();           // 파일 명을 찾아서
         String ext = originalFilename.substring(originalFilename.lastIndexOf(".")); // .을 찾고 그 뒤의 확장자만 추출
@@ -33,22 +43,20 @@ public class ImageService { // 이미지를 저장하는 class
         File dest = new File(filepath);             // 파일 경로를 dest에 저장하는 객체 생성
         file.transferTo(dest);                      // 클라이언트가 전송한 파일을 실제 dest 경로에 저장하는 역할
 
-        ImageMetadataExtractor.MetadataResult meta = ImageMetadataExtractor.extract(filepath);          // filepath 경로에 있는 이미지의 메타데이터를 meta에 저장
-        if (meta != null && meta.latitude != null && meta.longitude != null && meta.datetime != null) { // 위도 경도 시간 중 하나라도 없으면 else로 넘어간다
-            WeatherService.WeatherResult weather = weatherService.getWeather(   // 값이 있을 경우 WeatherService class의 WeatherResult로
-                    meta.latitude, meta.longitude, meta.datetime                // 이 값들을 보내고 결과를 리턴 받는다.
+        String weatherStr = null;
+
+        ImageMetadataExtractor.MetadataResult meta = ImageMetadataExtractor.extract(filepath);
+        if (meta != null && meta.latitude != null && meta.longitude != null && meta.datetime != null) {
+            WeatherService.WeatherResult weather = weatherService.getWeather(
+                    meta.latitude, meta.longitude, meta.datetime
             );
 
-            System.out.println("날씨: " + weather.weatherText + "(" + weather.temperature + "°C)");   // weather class의 weatherText값과 temperatuer값을 출력
-
-            // 나중에 Post에 저장할 용도라면
-            //String weatherString = weather.weatherText + " (" + weather.temperature + "°C)";
-            // Post.setWeather(weatherString); ← 이런 식으로 저장할 수 있어
-
+            weatherStr = weather.weatherText + " (" + Math.round(weather.temperature) + "°C)";
+            System.out.println("🌤️ 날씨: " + weatherStr);
         } else {
-            System.out.println("정보 없음");    // 메타데이터의 값이 하나라도 null일 경우에 예외 메시지 출력
+            weatherStr = "정보 없음";
         }
 
-        return filename;
+        return new ImageResult(filename, weatherStr);
     }
 }

@@ -4,10 +4,13 @@ import edu.dcu.moheng.springtest1.dto.PostRequestDto;
 import edu.dcu.moheng.springtest1.dto.PostResponseDto;
 import edu.dcu.moheng.springtest1.entity.Post;
 import edu.dcu.moheng.springtest1.service.PostService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -19,11 +22,14 @@ public class PostController {   // 게시글 작성을 요청하는 컨트롤러
         this.postService = postService;
     }
 
-    @PostMapping    // HTTP Post 요청을 처리
-    public ResponseEntity<Post> createPost(@RequestBody PostRequestDto dto,
-                                           @RequestHeader("Authorization") String authHeader) {
-        String token = authHeader.replace("Bearer ", "");   // JWT 토큰 추출
-        Post post = postService.createPost(dto, token); // 게시글 작성은 postService로 전달
+    @PostMapping(value = "/with-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Post> createPostWithImage(
+            @ModelAttribute PostRequestDto dto,
+            @RequestPart("file") MultipartFile file,
+            @RequestHeader("Authorization") String authHeader
+    ) throws IOException {
+        String token = authHeader.replace("Bearer ", "");
+        Post post = postService.createPost(dto, file, token);
         return ResponseEntity.ok(post);
     }
 

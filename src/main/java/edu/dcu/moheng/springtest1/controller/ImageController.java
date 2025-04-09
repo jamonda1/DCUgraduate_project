@@ -16,10 +16,10 @@ public class ImageController {
     }
 
     @PostMapping("/upload") // 클라이언트에서 /api/images/upload 요청이 들어오면 실행되는 메서드
-    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {   // from-data로 전송된 파일을 받음
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {                    // from-data로 전송된 파일을 받음
         try {
-            String savedFilename = imageService.saveImage(file);            // imageService의 saveImage를 호출하여 이미지 저장
-            return ResponseEntity.ok("업로드 성공: " + savedFilename);   // 성공 시 출력 메시지
+            ImageService.ImageResult result = imageService.saveImage(file);                                  // imageService의 saveImage를 호출하여 이미지 저장
+            return ResponseEntity.ok("업로드 성공: " + result.filename + " | 날씨: " + result.weather);    // 성공 시 출력 메시지
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("업로드 실패: " + e.getMessage());  // 예외
         }
