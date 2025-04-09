@@ -8,14 +8,10 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-// 날짜 선택 라이브러리
 import DateTimePicker from '@react-native-community/datetimepicker';
-// 드롭다운(선택) UI
 import { Picker } from '@react-native-picker/picker';
-// 이미지 갤러리에서 사진 선택
 import { launchImageLibrary } from 'react-native-image-picker';
 
-// 선택 가능한 날씨 옵션들
 const weatherOptions = [
   '맑음 ☀️',
   '흐림 ☁️',
@@ -35,7 +31,6 @@ const tripKeywords = [
 ];
 
 const CreatePostScreen = () => {
-  // 상태(state)들 선언
   const [selectedImage, setSelectedImage] = useState(null); // 선택한 이미지 저장
   const [selectedDate, setSelectedDate] = useState(new Date()); // 선택한 날짜 저장
   const [showDatePicker, setShowDatePicker] = useState(false); // 날짜 선택기 표시 여부
@@ -76,16 +71,14 @@ const CreatePostScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      {/* 이미지 선택 버튼 */}
       <TouchableOpacity style={styles.imagePickerButton} onPress={handleImagePick}>
         {selectedImage ? (
           <Image source={{ uri: selectedImage }} style={styles.selectedImage} />
         ) : (
-          <Text style={styles.imagePickerText}>사진 선택하기 📸</Text>
+          <Text style={styles.imagePickerText}>사진 선택 📸</Text>
         )}
       </TouchableOpacity>
 
-      {/* 날짜 선택 버튼 */}
       <TouchableOpacity
         style={styles.datePickerButton}
         onPress={() => setShowDatePicker(true)}
@@ -95,7 +88,6 @@ const CreatePostScreen = () => {
         </Text>
       </TouchableOpacity>
 
-      {/* 날짜 선택기가 showDatePicker 값에 따라 나타남 */}
       {showDatePicker && (
         <DateTimePicker
           value={selectedDate}
@@ -107,7 +99,6 @@ const CreatePostScreen = () => {
         />
       )}
 
-      {/* 날씨 선택 드롭다운 */}
       <View style={styles.weatherContainer}>
         <Text style={styles.label}>날씨 선택</Text>
         <Picker
@@ -121,7 +112,6 @@ const CreatePostScreen = () => {
         </Picker>
       </View>
 
-      {/* 여행 키워드 선택 */}
       <View style={styles.keywordsContainer}>
         <Text style={styles.label}>여행 키워드 선택</Text>
         <View style={styles.keywordsList}>
@@ -140,7 +130,6 @@ const CreatePostScreen = () => {
         </View>
       </View>
 
-      {/* 게시글 작성 영역 */}
       <View style={styles.contentContainer}>
         <View style={styles.contentHeader}>
           <Text style={styles.label}>내용 작성</Text>
@@ -159,11 +148,10 @@ const CreatePostScreen = () => {
           multiline
           placeholder="여행 이야기를 들려주세요..."
           value={content}
-          onChangeText={setContent} // 입력할 때마다 상태 업데이트
+          onChangeText={setContent} 
         />
       </View>
 
-      {/* 게시하기 버튼 */}
       <TouchableOpacity style={styles.submitButton}>
         <Text style={styles.submitButtonText}>게시하기</Text>
       </TouchableOpacity>
