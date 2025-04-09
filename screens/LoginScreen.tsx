@@ -35,9 +35,10 @@ const LoginScreen: React.FC = ({ navigation }) => {
       navigation.navigate('Home'); // 로그인 성공 시 홈으로 이동
     } catch (error) {
       console.error(error);
-      Alert.alert('로그인 실패', '이메일 또는 비밀번호가 틀렸습니다.');
+      Alert.alert('로그인 실패', '이메일 또는 비밀번호가 틀렸습니다.'); 
     } */
   };
+
 
   return (
     <View style={styles.container}>
