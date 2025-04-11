@@ -42,7 +42,9 @@ public class ImageMetadataExtractor {       // 이미지에서 메타데이터�
             if (exif != null) {                     // 이미지에 촬영 정보가 존재한다면
                 Date date = exif.getDateOriginal(); // date에 촬영된 시간을 반환하고
                 if (date != null) {                 // 반환된 date에 정보가 존재 한다면
-                    datetime = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();   // date를 LocalDateTime으로 변환하여 datetime에 저장
+                    datetime = date.toInstant()
+                            .atZone(ZoneId.of("Asia/Seoul"))
+                            .toLocalDateTime();   // date를 LocalDateTime으로 변환하여 datetime에 저장
                 }
             }
 

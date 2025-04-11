@@ -52,7 +52,7 @@ public class ImageService { // 이미지를 저장하는 class
             );
 
             weatherStr = weather.weatherText + " (" + Math.round(weather.temperature) + "°C)";
-            System.out.println("🌤️ 날씨: " + weatherStr);
+            System.out.println("🌤️ 날씨: " + weatherStr + ", " +meta.latitude + ", " + meta.longitude + ", " + meta.datetime);
         } else {
             weatherStr = "정보 없음";
         }
