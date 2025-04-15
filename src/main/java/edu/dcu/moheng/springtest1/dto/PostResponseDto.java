@@ -8,25 +8,33 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@Builder
-public class PostResponseDto {          // 클라이언트에게 응답할 때 사용하는 DTO (Data Transfer Object)
+public class PostResponseDto {
     private Long id;
     private String title;
-    private String nickname;
+    private String content;
+    private List<String> keywords;
     private String style;
-    private List<String> keywords;      // 사용자가 입력한 키워드 리스트
-    private List<String> hashtags;      // 사용자가 입력한 해시태그 리스트
-    private LocalDateTime uploadDate;   // 게시글 업로드 날짜
+    private List<String> hashtags;
+    private String imageUrl;
+    private String weather;
+    private LocalDateTime uploadDate;
+    private String authorNickname;
 
-    public static PostResponseDto from(Post post) { // Post 객체를 받아서 PostResponseDto로 변환해주는 메소드
-        return PostResponseDto.builder()            // Post 전체를 넘기면 DB 정보 등이 포함될 수 있으므로 DTO로 변환해야 함
-                .id(post.getId())
-                .title(post.getTitle())
-                .nickname(post.getAuthor().getNickname())
-                .style(post.getStyle())
-                .keywords(post.getKeywords())
-                .hashtags(post.getHashtags())
-                .uploadDate(post.getUploadDate())
-                .build();
+    public PostResponseDto(Post post) { // Post 객체를 받아서 PostResponseDto에 저장
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.keywords = post.getKeywords();
+        this.style = post.getStyle();
+        this.hashtags = post.getHashtags();
+        this.imageUrl = post.getImageUrl();
+        this.weather = post.getWeather();
+        this.uploadDate = post.getUploadDate();
+        this.authorNickname = post.getAuthor().getNickname();
+    }
+
+    public static PostResponseDto from(Post post) {
+        return new PostResponseDto(post);
     }
 }
+

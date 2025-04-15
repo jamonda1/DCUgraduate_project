@@ -22,7 +22,7 @@ public class PostController {   // 게시글 작성을 요청하는 컨트롤러
         this.postService = postService;
     }
 
-    @PostMapping(value = "/with-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/with-image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE) // 파일 업로드가 포함된 요청
     public ResponseEntity<Post> createPostWithImage(
             @ModelAttribute PostRequestDto dto,
             @RequestPart("file") MultipartFile file,
@@ -36,6 +36,11 @@ public class PostController {   // 게시글 작성을 요청하는 컨트롤러
     @GetMapping
     public ResponseEntity<List<PostResponseDto>> getAllPosts() {
         return ResponseEntity.ok(postService.getAllPosts());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id) {
+        return ResponseEntity.ok(postService.getPostById(id));
     }
 
 }

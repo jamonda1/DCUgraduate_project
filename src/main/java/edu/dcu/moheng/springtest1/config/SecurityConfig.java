@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 @Configuration  // SpringBoot의 설정 클래스
 public class SecurityConfig {
 
-    private final JwtFilter jwtFilter;              // JWT 필터 주입
+    private final JwtFilter jwtFilter;          // JWT 필터 주입
 
     public SecurityConfig(JwtFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
@@ -33,12 +33,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/user/signup").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/user/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/images/upload").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
 
-                // ✅ JwtFilter를 UsernamePasswordAuthenticationFilter 앞에 넣기
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

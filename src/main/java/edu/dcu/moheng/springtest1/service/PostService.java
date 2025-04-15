@@ -30,47 +30,35 @@ public class PostService {  // 게시글 생성을 담당하는 클래스
     }
 
     public Post createPost(PostRequestDto dto, MultipartFile file, String token) throws IOException {
-        String email = jwtUtil.getEmailFromToken(token);
-        User author = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("사용자 없음"));
+        String email = jwtUtil.getEmailFromToken(token);    // JWT 토큰에서 email을 추출하여 사용자 식별
+        User author = userRepository.findByEmail(email)     // email을 DB에 조회
+                .orElseThrow(() -> new IllegalArgumentException("사용자 없음")); // 없다면 예외 발생
 
-        ImageService.ImageResult result = imageService.saveImage(file);
+        ImageService.ImageResult result = imageService.saveImage(file); // 이미지를 저장하고 날씨 정보 추출
 
-        Post post = Post.builder()
-                .title(dto.getTitle())
-                .content(dto.getContent())
-                .keywords(dto.getKeywords())
-                .style(dto.getStyle())
+        Post post = Post.builder()              // Post 객체 생성
+                .title(dto.getTitle())          // 사용자가 입력한 타이틀
+                .content(dto.getContent())      // 사용자가 입력한 본문
+                .keywords(dto.getKeywords())    // 사용자가 입력한 키워드
+                .style(dto.getStyle())          // 이후 마찬가지
                 .hashtags(dto.getHashtags())
                 .imageUrl(result.filename)
                 .weather(result.weather)
                 .author(author)
                 .build();
 
-        return postRepository.save(post);
+        return postRepository.save(post);       // DB에 저장
     }
-    /*
-    public Post createPost(PostRequestDto dto, String token) {  // 게시글 생성 메서드
-        String email = jwtUtil.getEmailFromToken(token);        // 이메일 추출
-        User author = userRepository.findByEmail(email)         // 추출한 이메일을 userRepository에 조회
-                .orElseThrow(() -> new IllegalArgumentException("사용자 없음")); // 없으면 "사용자 없음"
 
-        Post post = Post.builder()              // 게시글 작성에 필요한 것
-                .title(dto.getTitle())          // 게시글 제목
-                .keywords(dto.getKeywords())    // 게시글 작성을 위한 키워드 입력
-                .style(dto.getStyle())          // 게시글 작성 스타일
-                .content(dto.getContent())      // 게시글 본문 작성
-                .hashtags(dto.getHashtags())    // 본문 기반의 해시태그
-                .author(author)                 // 게시글 작성자
-                .build();
-
-        return postRepository.save(post);       // 해당 값들을 postRepository에 저장
-    }
-    */
-
-    public List<PostResponseDto> getAllPosts() {
+    public List<PostResponseDto> getAllPosts() {    // 게시글 목록 전체를 가져오는 메서드
         return postRepository.findAll(Sort.by(Sort.Direction.DESC, "uploadDate")).stream()
                 .map(PostResponseDto::from)
                 .toList();
     }
+    public PostResponseDto getPostById(Long id) {   // 특정 게시글의 상세 정보를 가져오는 메서드
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+        return new PostResponseDto(post);
+    }
+
 }
