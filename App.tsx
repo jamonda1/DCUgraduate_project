@@ -7,6 +7,7 @@ import CustomTabBar from './screens/CustomTabBar';
 import { useNavigationState } from '@react-navigation/native';
 import { ScheduleProvider } from './screens/ScheduleContext';
 
+
 import HomeScreen from './screens/HomeScreen'; // 홈 화면
 import FeedScreen from './screens/FeedScreen'; // 피드 화면 추가
 import LoginScreen from './screens/LoginScreen';
@@ -26,15 +27,29 @@ const App: React.FC = () => {
        <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} options={{ title: '로그인' }} />
         <Stack.Screen name="Signup" component={SignupScreen} options={{ title: '회원가입' }} />
-        <Stack.Screen name="Home" component={HomeScreen} options={{ title: '모행', headerTitleAlign: 'left', headerTitleStyle: {
-          fontSize: 24, fontWeight: 'bold', color: '#FF6F61', },
-          headerRight: () => (
-          <TouchableOpacity style={{ marginRight: 15 }} onPress={() => console.log('검색 버튼 클릭')}>
-            <Image
-            source={{ uri: 'https://cdn-icons-png.flaticon.com/512/622/622669.png' }} 
-            style={{ width: 24, height: 24 }} />
-          </TouchableOpacity>
-          ), headerLeft: () => null, }} />
+        <Stack.Screen
+  name="Home"
+  component={HomeScreen}
+  options={({ navigation }) => ({
+    title: '모행',
+    headerTitleAlign: 'left',
+    headerTitleStyle: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: '#FF6F61',
+    },
+    headerRight: () => (
+      <TouchableOpacity style={{ marginRight: 15 }} onPress={() => navigation.navigate('Search')}>
+        <Image
+          source={{ uri: 'https://cdn-icons-png.flaticon.com/512/622/622669.png' }}
+          style={{ width: 24, height: 24 }}
+        />
+      </TouchableOpacity>
+    ),
+    headerLeft: () => null,
+  })}
+/>
+
         <Stack.Screen name="Feed" component={FeedScreen} options={{ title: '피드' }} />
         <Stack.Screen name="Map" component={MapScreen} options={{ title: '맵' }} />
         <Stack.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />

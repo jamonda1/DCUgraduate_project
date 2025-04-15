@@ -1,120 +1,120 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, FlatList, Keyboard, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const SearchScreen: React.FC = () => {
-  const [isFocused, setIsFocused] = useState(false);
-  const [recentSearches, setRecentSearches] = useState<string[]>([]);
-  const [search, setSearch] = useState('');
-  const navigation = useNavigation();
-  const inputRef = useRef<TextInput>(null);
+const SearchScreen = () => {
+  const [query, setQuery] = useState('');
+  const [recentSearches, setRecentSearches] = useState([
+    '스타벅스',
+    '김광석 거리',
+    '동성로',
+  ]);
 
-  const handleSearchFocus = () => {
-    setIsFocused(true);
-    inputRef.current?.focus();
-  };
+  const [recommended, setRecommended] = useState([
+    '동성로 맛집',
+    '대구 카페거리',
+    '대구 야경 명소',
+  ]);
 
-  const handleSearchSubmit = () => {
-    if (search.trim() === '') return;
-    const updatedList = [search, ...recentSearches.filter(item => item !== search)];
-    setRecentSearches(updatedList.slice(0, 10));
-    setSearch('');
-    Keyboard.dismiss();
-  };
-
+  const handleClear = () => setQuery('');
   const handleBack = () => {
-    setIsFocused(false);
-    Keyboard.dismiss();
-  };
-
-  const handleClear = () => {
-    setSearch('');
-    inputRef.current?.focus();
+    setQuery('');
+    // TODO: 뒤로가기 로직 필요 시 추가
   };
 
   return (
     <View style={styles.container}>
-      <View style={[styles.searchBarWrapper, isFocused && styles.searchBarFocused]}>
-        {isFocused && (
-          <TouchableOpacity onPress={handleBack} style={styles.icon}>
-            <Text>←</Text>
+      {/* 상단 검색바 */}
+      <View style={styles.searchBarContainer}>
+        {query !== '' && (
+          <TouchableOpacity onPress={handleBack}>
+            <Ionicons name="arrow-back" size={24} />
           </TouchableOpacity>
         )}
-
         <TextInput
-          ref={inputRef}
-          style={styles.input}
-          placeholder="검색"
-          value={search}
-          onFocus={handleSearchFocus}
-          onChangeText={setSearch}
-          onSubmitEditing={handleSearchSubmit}
-          returnKeyType="search"
+          style={styles.searchInput}
+          placeholder="검색어를 입력하세요"
+          value={query}
+          onChangeText={setQuery}
         />
-
-        {isFocused && search !== '' && (
-          <TouchableOpacity onPress={handleClear} style={styles.icon}>
-            <Text>✕</Text>
+        {query !== '' && (
+          <TouchableOpacity onPress={handleClear}>
+            <Ionicons name="close" size={24} />
           </TouchableOpacity>
         )}
+        <TouchableOpacity style={styles.avatar}>
+          <Ionicons name="person-circle" size={28} />
+        </TouchableOpacity>
       </View>
 
-      {/* 최근 검색어 */}
-      <View style={styles.recentWrapper}>
-        <Text style={styles.sectionTitle}>최근검색</Text>
+      {/* 최근 검색 */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>최근 검색</Text>
         <FlatList
           data={recentSearches}
-          keyExtractor={(item, index) => `${item}-${index}`}
-          renderItem={({ item }) => <Text style={styles.recentItem}>{item}</Text>}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
+        />
+      </View>
+
+      {/* 추천 검색 */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>추천 검색</Text>
+        <FlatList
+          data={recommended}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => <Text style={styles.item}>{item}</Text>}
         />
       </View>
     </View>
   );
 };
 
+export default SearchScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 16,
     backgroundColor: '#fff',
-    paddingTop: 50,
+    paddingTop: 60,
   },
-  searchBarWrapper: {
+  searchBarContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#333',
     borderWidth: 1,
-    marginHorizontal: 20,
-    borderRadius: 8,
+    borderColor: '#aaa',
+    borderRadius: 10,
     paddingHorizontal: 10,
-  },
-  searchBarFocused: {
-    position: 'absolute',
-    top: 50,
-    left: 20,
-    right: 20,
-    zIndex: 10,
-  },
-  input: {
-    flex: 1,
+    marginBottom: 20,
     height: 40,
   },
-  icon: {
-    paddingHorizontal: 8,
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    marginHorizontal: 8,
   },
-  recentWrapper: {
-    marginTop: 20,
-    paddingHorizontal: 20,
+  avatar: {
+    marginLeft: 8,
+  },
+  section: {
+    marginBottom: 20,
   },
   sectionTitle: {
     fontWeight: 'bold',
     fontSize: 16,
     marginBottom: 8,
   },
-  recentItem: {
-    paddingVertical: 6,
+  item: {
     fontSize: 14,
-    color: '#555',
+    color: '#333',
+    paddingVertical: 4,
   },
 });
-
-export default SearchScreen;
