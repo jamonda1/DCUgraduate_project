@@ -1,5 +1,6 @@
 package edu.dcu.moheng.springtest1.entity;
 
+import edu.dcu.moheng.springtest1.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,4 +42,13 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY)  // 1 : n 관계, 하나의 유저가 여러 게시글을 작성할 수 있다.
     private User author;                // 게시글의 작성자를 저장
+
+    public void update(PostRequestDto dto) {    // PostRequestDto에게 전달 받은 값들로 현재 Post 객체를 업데이트
+        this.title = dto.getTitle();
+        this.content = dto.getContent();
+        this.keywords = dto.getKeywords();
+        this.style = dto.getStyle();
+        this.hashtags = dto.getHashtags();
+    }
+
 }

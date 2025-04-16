@@ -28,7 +28,7 @@ public class PostService {  // 게시글 생성을 담당하는 클래스
         this.jwtUtil = jwtUtil;
         this.imageService = imageService;
     }
-
+    // 게시글 생성 C
     public Post createPost(PostRequestDto dto, MultipartFile file, String token) throws IOException {
         String email = jwtUtil.getEmailFromToken(token);    // JWT 토큰에서 email을 추출하여 사용자 식별
         User author = userRepository.findByEmail(email)     // email을 DB에 조회
@@ -49,7 +49,7 @@ public class PostService {  // 게시글 생성을 담당하는 클래스
 
         return postRepository.save(post);       // DB에 저장
     }
-
+    // 게시글 조회 R
     public List<PostResponseDto> getAllPosts() {    // 게시글 목록 전체를 가져오는 메서드
         return postRepository.findAll(Sort.by(Sort.Direction.DESC, "uploadDate")).stream()
                 .map(PostResponseDto::from)
@@ -59,6 +59,35 @@ public class PostService {  // 게시글 생성을 담당하는 클래스
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
         return new PostResponseDto(post);
+    }
+
+    // 게시글 수정 U
+    public PostResponseDto updatePost(Long id, PostRequestDto dto, String token) {
+        String email = jwtUtil.getEmailFromToken(token);    // 토큰에서 이메일 추출
+        Post post = postRepository.findById(id)             // id를 통해 DB에서 게시글을 탐색
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));    // DB에 없을 경우
+
+        // 본인 글인지 확인
+        if (!post.getAuthor().getEmail().equals(email)) {   // 게시글 작성자의 이메일과 토큰에서 추출한 이메일이 다를 경우
+            throw new IllegalArgumentException("작성자만 수정할 수 있습니다.");
+        }
+
+        post.update(dto);           // dto에 담긴 수정된 게시글대로 post의 객체 필드 수정
+        postRepository.save(post);  // 수정된 내용을 DB에 업데이트
+        return new PostResponseDto(post);
+    }
+
+    // 게시글 삭제 D
+    public void deletePost(Long id, String token) {
+        String email = jwtUtil.getEmailFromToken(token);    // 토큰에서 이메일 추출
+        Post post = postRepository.findById(id)             // id를 통해 DB에서 게시글을 탐색
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+
+        if (!post.getAuthor().getEmail().equals(email)) {   // 게시글 작성자의 이메일과 토큰에서 추출한 이메일이 다를 경우
+            throw new IllegalArgumentException("작성자만 삭제할 수 있습니다.");
+        }
+
+        postRepository.delete(post);    // 게시글 삭제
     }
 
 }
