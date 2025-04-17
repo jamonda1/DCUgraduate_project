@@ -1,5 +1,6 @@
 package edu.dcu.moheng.springtest1.service;
 
+import edu.dcu.moheng.springtest1.dto.AiPostRequestDto;
 import edu.dcu.moheng.springtest1.dto.PostRequestDto;
 import edu.dcu.moheng.springtest1.dto.PostResponseDto;
 import edu.dcu.moheng.springtest1.entity.Post;
@@ -21,12 +22,15 @@ public class PostService {  // 게시글 생성을 담당하는 클래스
     private final UserRepository userRepository;    // 사용자 조회
     private final JwtUtil jwtUtil;                  // JWT 토큰 처리
     private final ImageService imageService;
+    private final OllamaService ollamaService;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository, JwtUtil jwtUtil, ImageService imageService) { // 의존성 주입
+
+    public PostService(PostRepository postRepository, UserRepository userRepository, JwtUtil jwtUtil, ImageService imageService, OllamaService ollamaService) { // 의존성 주입
         this.postRepository = postRepository;       // IOC(제어의 역전) 객체를 생성하지 않고, 어디선가 받아온 객체를 가져와서 할당하는 것
         this.userRepository = userRepository;       // 객체의 생성과 관리의 자동화, 결합도 감소, 테스트 용이성, 생명주기 관리, 유연한 연결이 가능
         this.jwtUtil = jwtUtil;
         this.imageService = imageService;
+        this.ollamaService = ollamaService;
     }
     // 게시글 생성 C
     public Post createPost(PostRequestDto dto, MultipartFile file, String token) throws IOException {
@@ -90,4 +94,23 @@ public class PostService {  // 게시글 생성을 담당하는 클래스
         postRepository.delete(post);    // 게시글 삭제
     }
 
+    public String generatePostBody(AiPostRequestDto request) {  // AI에 넘겨줄 프롬포트
+        String title = request.getTitle();
+        String keywordLine = String.join(", ", request.getKeywords());
+        String style = request.getStyle();
+
+        String prompt = String.format("""
+        Please write the body of the travel blog in Korean using the information below.
+        
+        Title: %s
+        Keywords: %s
+        Style: %s
+
+        I would like you to translate into Korean a natural and emotional text of about 150 to 200 characters that fits the style.
+        """, title, keywordLine, style);
+
+        return ollamaService.generateText(prompt);
+    }
+
 }
+

@@ -1,5 +1,6 @@
 package edu.dcu.moheng.springtest1.controller;
 
+import edu.dcu.moheng.springtest1.dto.AiPostRequestDto;
 import edu.dcu.moheng.springtest1.dto.PostRequestDto;
 import edu.dcu.moheng.springtest1.dto.PostResponseDto;
 import edu.dcu.moheng.springtest1.entity.Post;
@@ -65,5 +66,10 @@ public class PostController {   // 게시글 작성을 요청하는 컨트롤러
         return ResponseEntity.noContent().build(); // 204 No Content(삭제 성공)
     }
 
+    @PostMapping("/ai-generate")    // AI로 글 생성
+    public ResponseEntity<String> generatePostBody(@RequestBody AiPostRequestDto request) {
+        String aiBody = postService.generatePostBody(request);
+        return ResponseEntity.ok(aiBody);
+    }
 
 }

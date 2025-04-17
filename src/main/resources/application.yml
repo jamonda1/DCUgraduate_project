@@ -22,3 +22,7 @@ spring:
 
 weather:
   apikey: 4957375d0a6aca2f78576ef69f627509
+
+ollama:
+  api:
+    url: http://localhost:11434
