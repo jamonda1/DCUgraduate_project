@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PostRequestDto {
+public class PostRequestDto {   // DTO(데이터를 전달하기 위한 객체)
     private String title;
     private String content;
     private List<String> keywords;
