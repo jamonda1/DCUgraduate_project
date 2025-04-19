@@ -66,8 +66,8 @@ public class PostController {   // 게시글 작성을 요청하는 컨트롤러
         return ResponseEntity.noContent().build(); // 204 No Content(삭제 성공)
     }
 
-    @PostMapping("/ai-generate")    // AI로 글 생성
-    public ResponseEntity<String> generatePostBody(@RequestBody AiPostRequestDto request) {
+    @PostMapping("/ai-generate")
+    public ResponseEntity<String> generatePostBody(@RequestBody PostRequestDto request) {
         String aiBody = postService.generatePostBody(request);
         return ResponseEntity.ok(aiBody);
     }
