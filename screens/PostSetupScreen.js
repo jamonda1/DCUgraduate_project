@@ -36,6 +36,7 @@ const PostSetupScreen = ({ navigation }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedWeather, setSelectedWeather] = useState(weatherOptions[0]);
+  const [title, setTitle] = useState('');
   const [keywords, setKeywords] = useState('');
   const [selectedWritingStyle, setSelectedWritingStyle] = useState(writingStyles[0]);
 
@@ -53,10 +54,16 @@ const PostSetupScreen = ({ navigation }) => {
 
   // 다음 화면으로 이동
   const handleNext = () => {
+    if (!title.trim()) {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+    
     navigation.navigate('PostWrite', {
       image: selectedImage,
       date: selectedDate,
       weather: selectedWeather,
+      title: title,
       keywords: keywords,
       writingStyle: selectedWritingStyle,
     });
@@ -72,6 +79,17 @@ const PostSetupScreen = ({ navigation }) => {
           <Text style={styles.imagePickerText}>사진 선택하기 ?</Text>
         )}
       </TouchableOpacity>
+
+      {/* 제목 입력 */}
+      <View style={styles.titleContainer}>
+        <Text style={styles.label}>제목</Text>
+        <TextInput
+          style={styles.titleInput}
+          placeholder="여행 제목을 입력하세요"
+          value={title}
+          onChangeText={setTitle}
+        />
+      </View>
 
       {/* 날짜 선택 */}
       <TouchableOpacity
@@ -164,6 +182,15 @@ const styles = StyleSheet.create({
   imagePickerText: {
     fontSize: 16,
     color: '#666',
+  },
+  titleContainer: {
+    marginBottom: 16,
+  },
+  titleInput: {
+    backgroundColor: '#f0f0f0',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
   },
   datePickerButton: {
     padding: 12,
