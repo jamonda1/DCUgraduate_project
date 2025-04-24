@@ -1,0 +1,2 @@
+### 장소 기반 AI 일정 추천 요청
+GET http://localhost:8080/api/ai-schedule?query=제주도

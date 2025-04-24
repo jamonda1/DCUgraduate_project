@@ -1,0 +1,35 @@
+### ✅ 1. 일정 등록
+POST http://localhost:8080/api/schedules
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "date": "2025-05-12",
+  "title": "제주도 출발",
+  "startTime": "09:00",
+  "endTime": "11:00"
+}
+
+###
+
+### ✅ 2. 일정 조회
+GET http://localhost:8080/api/schedules?userId=1&date=2025-05-12
+
+###
+
+### ✅ 3. 일정 수정
+PUT http://localhost:8080/api/schedules/1
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "date": "2025-05-12",
+  "title": "제주 공항까지 이동",
+  "startTime": "10:00",
+  "endTime": "12:00"
+}
+
+###
+
+### ✅ 4. 일정 삭제
+DELETE http://localhost:8080/api/schedules/1
