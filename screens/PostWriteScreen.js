@@ -11,7 +11,7 @@ import {
 
 const PostWriteScreen = ({ route, navigation }) => {
   // 이전 화면에서 전달받은 데이터
-  const { image, date, weather, keywords, writingStyle } = route.params;
+  const { image, date, weather, title, keywords, writingStyle } = route.params;
   
   // 상태 관리
   const [content, setContent] = useState('');
@@ -25,7 +25,7 @@ const PostWriteScreen = ({ route, navigation }) => {
     setTimeout(() => {
       const exampleContent = `안녕하세요! ${date.toLocaleDateString()}에 다녀온 여행 이야기를 들려드릴게요.
       
-${writingStyle} 스타일로 작성해볼게요.
+${title}이라는 제목으로 ${writingStyle} 스타일로 작성해볼게요.
 ${keywords} 키워드를 중심으로 이야기를 풀어나가겠습니다.
 ${weather} 날씨 속에서의 여행은 정말 특별했어요.`;
 
@@ -41,6 +41,7 @@ ${weather} 날씨 속에서의 여행은 정말 특별했어요.`;
       image,
       date,
       weather,
+      title,
       keywords,
       writingStyle,
       content,
@@ -53,6 +54,7 @@ ${weather} 날씨 속에서의 여행은 정말 특별했어요.`;
       <View style={styles.infoContainer}>
         <Image source={{ uri: image }} style={styles.thumbnail} />
         <View style={styles.infoTextContainer}>
+          <Text style={styles.titleText}>{title}</Text>
           <Text style={styles.infoText}>날짜: {date.toLocaleDateString()}</Text>
           <Text style={styles.infoText}>날씨: {weather}</Text>
           <Text style={styles.infoText}>키워드: {keywords}</Text>
@@ -112,6 +114,11 @@ const styles = StyleSheet.create({
   },
   infoTextContainer: {
     flex: 1,
+  },
+  titleText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
   },
   infoText: {
     fontSize: 14,
