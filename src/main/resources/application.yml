@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/dcuproject?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
@@ -26,3 +29,10 @@ weather:
 ollama:
   api:
     url: http://localhost:11434
+
+google:
+  places:
+    api-key: AIzaSyAZc_IfL1Ke22wgSeXjtCNd0k8Awd2unsE
+
+openai:
+  api-key: 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

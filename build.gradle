@@ -38,6 +38,11 @@ dependencies {
     implementation 'mysql:mysql-connector-java:8.0.33'
     implementation 'com.drewnoakes:metadata-extractor:2.18.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // 일정 관련해서 새로 추가한 의존성
+    implementation 'org.json:json:20240303'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 tasks.named('test') {
