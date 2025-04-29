@@ -1,6 +1,7 @@
 package edu.dcu.moheng.springtest1.controller;
 
 import edu.dcu.moheng.springtest1.dto.LoginRequestDto;
+import edu.dcu.moheng.springtest1.dto.LoginResponseDto;
 import edu.dcu.moheng.springtest1.dto.SignupRequestDto;
 import edu.dcu.moheng.springtest1.dto.UserResponseDto;
 import edu.dcu.moheng.springtest1.jwt.JwtUtil;
@@ -28,18 +29,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto requestDto) {
-        // 로그인 성공 여부 확인
-        UserResponseDto user = userService.login(requestDto);
-
-        // JWT 토큰 생성
-        String token = jwtUtil.generateToken(requestDto.getEmail());
-
-        // 토큰을 응답 헤더에 포함시켜 반환
-        return ResponseEntity.ok()
-                .header("Authorization", "Bearer " + token)
-                .body(user); // 사용자 정보도 함께 반환
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request) {
+        return ResponseEntity.ok(userService.login(request));
     }
+
 
     @GetMapping("/me")
     public UserResponseDto getMyInfo(@RequestHeader("Authorization") String authHeader) {

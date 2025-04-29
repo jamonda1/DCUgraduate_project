@@ -1,23 +1,30 @@
 package edu.dcu.moheng.springtest1.service;
 
 import edu.dcu.moheng.springtest1.dto.LoginRequestDto;
+import edu.dcu.moheng.springtest1.dto.LoginResponseDto;
 import edu.dcu.moheng.springtest1.dto.SignupRequestDto;
 import edu.dcu.moheng.springtest1.dto.UserResponseDto;
 import edu.dcu.moheng.springtest1.entity.User;
+import edu.dcu.moheng.springtest1.jwt.JwtUtil;
 import edu.dcu.moheng.springtest1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service    // 비즈니스 로직을 처리하는 비즈니스 게층, 이 클래스는 빈이 되어 스프링 컨테이너가 생성/관리/주입
+@Service    // 비즈니스 로직을 처리하는 비즈니스 계층, 이 클래스는 빈이 되어 스프링 컨테이너가 생성/관리/주입
 public class UserService {
     // 회원가입, 로그인, 정보 조회를 담당하는 서비스 클래스, DTO를 생성하는 클래스
 
-    @Autowired
-    private UserRepository userRepository;      // DB에서 유저 데이터를 조회/저장/삭제하는 객체
+    private final UserRepository userRepository;      // DB에서 유저 데이터를 조회/저장/삭제하는 객체
+    private final PasswordEncoder passwordEncoder;    // 비밀번호를 암호화하거나 비교할 때 사용
+    private final JwtUtil jwtUtil;                     // JWT 토큰을 생성하고 검증하는 유틸리티
 
     @Autowired
-    private PasswordEncoder passwordEncoder;    // 비밀번호를 암호화하거나 비교할 때 사용
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
+    }
 
     public UserResponseDto signup(SignupRequestDto request) {               // 회원가입(이 메서드 내에서 SignupRequestDto는 request로 사용)
         if (!request.getPassword().equals(request.getPasswordConfirm())) {  // 회원가입 시 입력하는 "비밀번호"와 "비밀번호 확인" 비교
@@ -28,9 +35,9 @@ public class UserService {
             throw new IllegalArgumentException("이미 사용되고 있는 이메일입니다.");
         }
 
-        User user = User.builder()  // SignupRequestDto 객체 의 필드를 꺼내서 User 객체를 채운다.
+        User user = User.builder()  // SignupRequestDto 객체의 필드를 꺼내서 User 객체를 채운다.
                 .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))    // 입력한 비밀번호는 단방향으로 압호화하여 저장
+                .password(passwordEncoder.encode(request.getPassword()))    // 입력한 비밀번호는 단방향으로 암호화하여 저장
                 .nickname(request.getNickname())
                 .birthDate(request.getBirthDate())
                 .build();           // 위의 필드들을 바탕으로 User 객체를 생성해준다.
@@ -45,25 +52,17 @@ public class UserService {
                 .build();*/
     }
 
-    public UserResponseDto login(LoginRequestDto request) { // 로그인
-
-        //  이메일 로그를 보기 위해 출력
-        System.out.println("입력한 이메일: " + request.getEmail());
-
-        User user = userRepository.findByEmail(request.getEmail())  // UserRepository에서 입력한 이메일을 가진 User를 찾는다.
+    public LoginResponseDto login(LoginRequestDto request) {
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
 
-        //  비밀번호 로그 (입력값 & DB 저장값)
-        System.out.println("입력한 비밀번호: " + request.getPassword());
-        System.out.println("DB에 저장된 비밀번호: " + user.getPassword());
-
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {  // matches()를 통해 암호화된 비밀번호를 비교
-            System.out.println("비밀번호 불일치");
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-        System.out.println("로그인 성공!");
 
-        return UserResponseDto.from(user);  // 회원가입, 로그인에도 메인 화면 등에서 내 정보가 바로 필요할 때가 있다.
+        String token = jwtUtil.generateToken(user.getEmail());
+
+        return new LoginResponseDto(user.getEmail(), user.getNickname(), user.getBirthDate(), token);
     }
 
     public UserResponseDto getUserInfo(String email) {  // 조회
