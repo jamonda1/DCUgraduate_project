@@ -1,41 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Modal,
   FlatList,
+  ScrollView,
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSchedule } from '../screens/ScheduleContext';
 
-const HOURS = [
-  '09:00', '10:00', '11:00', '12:00', '13:00',
-  '14:00', '15:00', '16:00', '17:00', '18:00',
-];
+type ScheduleItem = {
+  title: string;
+  startTime: string;
+  endTime: string;
+};
 
 const AddScheduleScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const { addSchedule, updateMarkedDates } = useSchedule();
 
-  const selectedDate = route.params?.selectedDate || new Date().toISOString().split('T')[0];
+  const { addSchedule } = useSchedule();
 
+  // 선택한 날짜: 없으면 오늘 날짜
+  const selectedDate =
+    route.params?.selectedDate || new Date().toISOString().split('T')[0];
+
+  // RecommendScreen에서 넘어온 추천 일정 (없으면 빈 배열)
+  const externalRecommendations: ScheduleItem[] =
+    route.params?.aiRecommendations || [];
+
+  // 사용자가 직접 입력하는 일정
   const [title, setTitle] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
-  const [selecting, setSelecting] = useState<'start' | 'end' | null>(null);
-  const [modalVisible, setModalVisible] = useState(false);
 
-  const handleTimeSelect = (time: string) => {
-    if (selecting === 'start') setStartTime(time);
-    else if (selecting === 'end') setEndTime(time);
-    setModalVisible(false);
-  };
+  // 현재 추천 일정 목록
+  const [aiRecommendations, setAIRecommendations] = useState<ScheduleItem[]>([]);
 
-  const handleAddSchedule = () => {
+  // 외부에서 넘어온 추천 일정 있으면 자동으로 적용
+  useEffect(() => {
+    if (externalRecommendations.length > 0) {
+      setAIRecommendations(externalRecommendations);
+    }
+  }, [externalRecommendations]);
+
+  // 직접 입력 일정 추가
+  const handleAddManualSchedule = () => {
     if (!title || !startTime || !endTime) return;
     const newSchedule = {
       date: selectedDate,
@@ -47,68 +59,103 @@ const AddScheduleScreen = () => {
     navigation.goBack();
   };
 
+  // AI 추천 일정 받기 버튼 → RecommendScreen 이동
+  const handleGoToRecommend = () => {
+    navigation.navigate('Recommend', { selectedDate });
+  };
+
+  // 추천 일정 모두 추가
+  const handleAddAllRecommendations = () => {
+    aiRecommendations.forEach((schedule) => {
+      const newSchedule = {
+        date: selectedDate,
+        title: schedule.title,
+        startTime: schedule.startTime,
+        endTime: schedule.endTime,
+      };
+      addSchedule(selectedDate, newSchedule);
+    });
+    navigation.goBack();
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.dateText}>📅 {selectedDate}</Text>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.container}>
+        <Text style={styles.dateText}>📅 {selectedDate}</Text>
 
-      <Text style={styles.label}>무엇을 하나요?</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="예: 기차 타기"
-        value={title}
-        onChangeText={setTitle}
-      />
+        {/* 직접 입력 영역 */}
+        <Text style={styles.label}>무엇을 하나요?</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="예: 기차 타기"
+          value={title}
+          onChangeText={setTitle}
+        />
 
-      <Text style={styles.label}>시작 시간</Text>
-      <TouchableOpacity
-        style={styles.timeButton}
-        onPress={() => {
-          setSelecting('start');
-          setModalVisible(true);
-        }}>
-        <Text>{startTime || '시간 선택'}</Text>
-      </TouchableOpacity>
+        <Text style={styles.label}>시작 시간</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="예: 09:00"
+          value={startTime}
+          onChangeText={setStartTime}
+        />
 
-      <Text style={styles.label}>종료 시간</Text>
-      <TouchableOpacity
-        style={styles.timeButton}
-        onPress={() => {
-          setSelecting('end');
-          setModalVisible(true);
-        }}>
-        <Text>{endTime || '시간 선택'}</Text>
-      </TouchableOpacity>
+        <Text style={styles.label}>종료 시간</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="예: 10:00"
+          value={endTime}
+          onChangeText={setEndTime}
+        />
 
-      <TouchableOpacity style={styles.addButton} onPress={handleAddSchedule}>
-        <Text style={styles.addButtonText}>일정 추가</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={handleAddManualSchedule}
+        >
+          <Text style={styles.addButtonText}>일정 추가</Text>
+        </TouchableOpacity>
 
-      <Modal visible={modalVisible} transparent animationType="slide">
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>시간 선택</Text>
+        {/* AI 추천 일정 받기 버튼 */}
+        <TouchableOpacity
+          style={[styles.addButton, { backgroundColor: '#6FA8DC' }]}
+          onPress={handleGoToRecommend}
+        >
+          <Text style={styles.addButtonText}>AI 추천 일정 받기</Text>
+        </TouchableOpacity>
+
+        {/* 추천 일정이 있으면 리스트로 표시 */}
+        {aiRecommendations.length > 0 && (
+          <>
+            <Text style={styles.label}>AI 추천 일정</Text>
             <FlatList
-              data={HOURS}
-              keyExtractor={(item) => item}
+              data={aiRecommendations}
+              keyExtractor={(_, index) => index.toString()}
               renderItem={({ item }) => (
-                <TouchableOpacity onPress={() => handleTimeSelect(item)}>
-                  <Text style={styles.modalItem}>{item}</Text>
-                </TouchableOpacity>
+                <View style={styles.recommendItem}>
+                  <Text style={styles.recommendText}>
+                    {item.startTime} - {item.endTime} : {item.title}
+                  </Text>
+                </View>
               )}
+              scrollEnabled={false} // ScrollView 안이라 스크롤 비활성화
             />
             <TouchableOpacity
-              onPress={() => setModalVisible(false)}
-              style={styles.modalCloseButton}>
-              <Text style={{ color: '#fff' }}>닫기</Text>
+              style={[styles.addButton, { backgroundColor: '#28A745' }]}
+              onPress={handleAddAllRecommendations}
+            >
+              <Text style={styles.addButtonText}>추천 일정 모두 추가</Text>
             </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </View>
+          </>
+        )}
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    paddingBottom: 30,
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -119,7 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 12,
     color: '#333',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   label: {
     fontSize: 16,
@@ -134,16 +181,8 @@ const styles = StyleSheet.create({
     padding: 12,
     fontSize: 16,
   },
-  timeButton: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 12,
-    alignItems: 'center',
-    marginBottom: 12,
-  },
   addButton: {
-    marginTop: 30,
+    marginTop: 20,
     backgroundColor: '#FF6F61',
     paddingVertical: 14,
     borderRadius: 10,
@@ -154,33 +193,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.4)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    width: '80%',
-    borderRadius: 10,
-    padding: 20,
-    alignItems: 'center',
-  },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  modalItem: {
-    fontSize: 16,
-    paddingVertical: 10,
-  },
-  modalCloseButton: {
-    marginTop: 16,
-    backgroundColor: '#FF6F61',
+  recommendItem: {
     padding: 10,
-    borderRadius: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  recommendText: {
+    fontSize: 16,
+    color: '#333',
   },
 });
 

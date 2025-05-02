@@ -14,11 +14,11 @@ import { launchImageLibrary } from 'react-native-image-picker';
 
 // 날씨 옵션
 const weatherOptions = [
-  '맑음 ??',
-  '흐림 ??',
-  '비 ?',
-  '눈 ?',
-  '안개 ?',
+  '맑음 ☀️',
+  '흐림 ☁️',
+  '비 🌧️',
+  '눈 ❄️',
+  '안개 🌫️',
 ];
 
 // 작성 스타일 옵션
@@ -46,7 +46,7 @@ const PostSetupScreen = ({ navigation }) => {
       mediaType: 'photo',
       quality: 1,
     }, (response) => {
-      if (!response.didCancel && !response.error) {
+      if (!response.didCancel && !response.error && response.assets?.length > 0) {
         setSelectedImage(response.assets[0].uri);
       }
     });
@@ -58,7 +58,7 @@ const PostSetupScreen = ({ navigation }) => {
       alert('제목을 입력해주세요.');
       return;
     }
-    
+
     navigation.navigate('PostWrite', {
       image: selectedImage,
       date: selectedDate,
@@ -70,13 +70,17 @@ const PostSetupScreen = ({ navigation }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView 
+      style={styles.container} 
+      contentContainerStyle={styles.scrollContainer} // ✅ 스크롤이 제대로 동작하게 함
+      keyboardShouldPersistTaps="handled"
+    >
       {/* 이미지 선택 */}
       <TouchableOpacity style={styles.imagePickerButton} onPress={handleImagePick}>
         {selectedImage ? (
           <Image source={{ uri: selectedImage }} style={styles.selectedImage} />
         ) : (
-          <Text style={styles.imagePickerText}>사진 선택하기 ?</Text>
+          <Text style={styles.imagePickerText}>사진 선택하기 📷</Text>
         )}
       </TouchableOpacity>
 
@@ -163,8 +167,11 @@ const PostSetupScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     backgroundColor: '#fff',
+  },
+  scrollContainer: {
+    padding: 16,
+    paddingBottom: 50, // 스크롤 여유 공간 확보
   },
   imagePickerButton: {
     height: 200,
@@ -240,4 +247,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostSetupScreen; 
+export default PostSetupScreen;

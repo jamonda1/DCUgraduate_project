@@ -20,6 +20,8 @@ import MyPageScreen from './screens/MyPageScreen';
 import PostSetupScreen from './screens/PostSetupScreen';
 import PostWriteScreen from './screens/PostWriteScreen';
 import SettingsScreen from './screens/SettingsScreen';
+import RecommendScreen from './screens/RecommendScreen';
+
 
 const Stack = createStackNavigator();
 
@@ -61,7 +63,7 @@ const App: React.FC = () => {
             options={({ navigation }) => ({
               title: '피드',
               headerRight: () => (
-                <TouchableOpacity onPress={() => navigation.navigate('PostWrite')} style={{ marginRight: 15 }}>
+                <TouchableOpacity onPress={() => navigation.navigate('PostSetup')} style={{ marginRight: 15 }}>
                   <Image source={{ uri: 'https://cdn-icons-png.flaticon.com/512/747/747376.png' }} style={styles.icon} />
                 </TouchableOpacity>
               ),
@@ -78,6 +80,7 @@ const App: React.FC = () => {
           <Stack.Screen name="PostSetup" component={PostSetupScreen} options={{ title: '포스트 셋업' }} />
           <Stack.Screen name="PostWrite" component={PostWriteScreen} options={{ title: '글 작성' }} />
           <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: '설정' }} />
+          <Stack.Screen name="Recommend" component={RecommendScreen} options={{ title: '설정' }} />
         </Stack.Navigator>
         <ConditionalTabBar />
       </NavigationContainer>
