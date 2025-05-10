@@ -21,6 +21,7 @@ import PostSetupScreen from './screens/PostSetupScreen';
 import PostWriteScreen from './screens/PostWriteScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import RecommendScreen from './screens/RecommendScreen';
+import EditProfileScreen from './screens/EditProfileScreen';
 
 
 const Stack = createStackNavigator();
@@ -77,6 +78,7 @@ const App: React.FC = () => {
           <Stack.Screen name="AddSchedule" component={AddScheduleScreen} options={{ title: '일정 추가' }} />
           <Stack.Screen name="EditSchedule" component={EditScheduleScreen} options={{ title: '일정 수정' }} />
           <Stack.Screen name="MyPage" component={MyPageScreen} options={{ title: '마이페이지' }} />
+          <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ title: '내정보 수정' }} />
           <Stack.Screen name="PostSetup" component={PostSetupScreen} options={{ title: '포스트 셋업' }} />
           <Stack.Screen name="PostWrite" component={PostWriteScreen} options={{ title: '글 작성' }} />
           <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: '설정' }} />

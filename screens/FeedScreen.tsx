@@ -1,49 +1,53 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, ActivityIndicator } from 'react-native';
-import axios from 'axios';
-
-// 📌 기본 더미 데이터
-const dummyPosts = [
-  { id: '1', user: 'Alice', image: 'https://via.placeholder.com/300', content: '여행은 즐거워!' },
-  { id: '2', user: 'Bob', image: 'https://via.placeholder.com/300', content: '멋진 풍경이에요!' },
-  { id: '3', user: 'Charlie', image: 'https://via.placeholder.com/300', content: '맛집 탐방 중!' },
-];
+import {
+  View, Text, FlatList, Image, StyleSheet, ActivityIndicator,
+} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../api'; // baseURL: http://10.0.2.2:8080 로 설정된 axios 인스턴스
 
 const FeedScreen = () => {
-  const [posts, setPosts] = useState(dummyPosts);
-  const [page, setPage] = useState(1); // 페이지 넘버 (서버에 요청할 때 사용)
+  const [posts, setPosts] = useState([]);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [allLoaded, setAllLoaded] = useState(false); // 더 이상 데이터 없으면 true
+  const [allLoaded, setAllLoaded] = useState(false);
 
-  // ✅ 초기에 게시글 불러오기
   useEffect(() => {
     fetchPosts(1);
   }, []);
 
-  // ✅ 서버에서 게시글 가져오기 (페이지별)
   const fetchPosts = async (pageNumber: number) => {
     if (loading || allLoaded) return;
 
     setLoading(true);
-
     try {
-      const response = await axios.get(`http://서버주소/posts?page=${pageNumber}`);
-      const newPosts = response.data;
+      const token = await AsyncStorage.getItem('token');
+      const response = await api.get('/api/posts', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      if (newPosts.length === 0) {
-        setAllLoaded(true); // 더 이상 데이터 없으면
+      const data = response.data;
+
+      if (data.length === 0) {
+        setAllLoaded(true);
       } else {
-        if (pageNumber === 1) {
-          setPosts(newPosts); // 첫 페이지면 덮어쓰기
-        } else {
-          setPosts((prevPosts) => [...prevPosts, ...newPosts]); // 추가
-        }
-        setPage(pageNumber + 1); // 다음 페이지로
-      }
+        const mapped = data.map((post: any) => ({
+          id: post.id.toString(),
+          user: post.authorNickname || '익명',
+          image: `http://10.0.2.2:8080/images/${post.imageUrl}`,
+          content: post.content,
+        }));
 
-    } catch (error) {
-      console.error('서버 연결 실패, 더미 데이터 유지:', error);
-      // 서버 연결 실패 → 더미 데이터 유지 (posts 상태 변하지 않음)
+        if (pageNumber === 1) {
+          setPosts(mapped);
+        } else {
+          setPosts((prev) => [...prev, ...mapped]);
+        }
+        setPage(pageNumber + 1);
+      }
+    } catch (err) {
+      console.error('게시글 로딩 실패:', err);
     } finally {
       setLoading(false);
     }
@@ -63,8 +67,8 @@ const FeedScreen = () => {
       keyExtractor={(item) => item.id}
       renderItem={renderItem}
       contentContainerStyle={styles.container}
-      onEndReached={() => fetchPosts(page)} // ✅ 스크롤이 끝에 닿으면 다음 페이지 요청
-      onEndReachedThreshold={0.5} // 리스트 50% 이하 남으면 실행
+      onEndReached={() => fetchPosts(page)}
+      onEndReachedThreshold={0.5}
       ListFooterComponent={loading && <ActivityIndicator size="large" color="#007AFF" />}
     />
   );

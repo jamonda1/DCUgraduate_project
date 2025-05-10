@@ -7,10 +7,29 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const MyPageScreen = ({ navigation }) => {
+type RootStackParamList = {
+  MyPage: undefined;
+  EditProfile: undefined;
+  Settings: undefined;
+};
+
+type MyPageScreenNavigationProp = StackNavigationProp<RootStackParamList, 'MyPage'>;
+
+interface MyPageScreenProps {
+  navigation: MyPageScreenNavigationProp;
+}
+
+interface UserData {
+  name: string;
+  email: string;
+  profileImage: string;
+}
+
+const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
   // 임시 사용자 데이터
-  const userData = {
+  const userData: UserData = {
     name: '홍길동',
     email: 'hong@example.com',
     profileImage: 'https://via.placeholder.com/100',
@@ -19,7 +38,10 @@ const MyPageScreen = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       {/* 프로필 섹션 */}
-      <View style={styles.profileSection}>
+      <TouchableOpacity 
+        style={styles.profileSection}
+        onPress={() => navigation.navigate('EditProfile')}
+      >
         <Image
           source={{ uri: userData.profileImage }}
           style={styles.profileImage}
@@ -27,8 +49,9 @@ const MyPageScreen = ({ navigation }) => {
         <View style={styles.profileInfo}>
           <Text style={styles.userName}>{userData.name}</Text>
           <Text style={styles.userEmail}>{userData.email}</Text>
+          <Text style={styles.editProfileText}>프로필 수정하기</Text>
         </View>
-      </View>
+      </TouchableOpacity>
 
       {/* 메뉴 섹션 */}
       <View style={styles.menuSection}>
@@ -37,22 +60,22 @@ const MyPageScreen = ({ navigation }) => {
           onPress={() => navigation.navigate('Settings')}
         >
           <Text style={styles.menuText}>설정</Text>
-          <Text style={styles.menuArrow}>?</Text>
+          <Text style={styles.menuArrow}>›</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.menuItem}>
           <Text style={styles.menuText}>내 여행 기록</Text>
-          <Text style={styles.menuArrow}>?</Text>
+          <Text style={styles.menuArrow}>›</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.menuItem}>
           <Text style={styles.menuText}>저장한 여행</Text>
-          <Text style={styles.menuArrow}>?</Text>
+          <Text style={styles.menuArrow}>›</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.menuItem}>
           <Text style={styles.menuText}>좋아요한 여행</Text>
-          <Text style={styles.menuArrow}>?</Text>
+          <Text style={styles.menuArrow}>›</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -87,6 +110,11 @@ const styles = StyleSheet.create({
   userEmail: {
     fontSize: 14,
     color: '#666',
+  },
+  editProfileText: {
+    fontSize: 12,
+    color: '#007AFF',
+    marginTop: 5,
   },
   menuSection: {
     marginTop: 20,

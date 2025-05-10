@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+// HomeScreen.tsx
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -9,62 +10,57 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect, useRoute } from '@react-navigation/native';
 import { useSchedule } from './ScheduleContext';
-import axios from 'axios'; // ✅ 추가
-
-// ✅ 기본 더미 피드 데이터
-const dummyFeed = [
-  { id: '1', image: 'https://via.placeholder.com/300x200', title: '피드 제목 1', desc: '여기는 피드 내용입니다.' },
-  { id: '2', image: 'https://via.placeholder.com/300x200', title: '피드 제목 2', desc: '여기는 피드 내용입니다.' },
-  { id: '3', image: 'https://via.placeholder.com/300x200', title: '피드 제목 3', desc: '여기는 피드 내용입니다.' },
-  { id: '4', image: 'https://via.placeholder.com/300x200', title: '피드 제목 4', desc: '여기는 피드 내용입니다.' },
-  { id: '5', image: 'https://via.placeholder.com/300x200', title: '피드 제목 5', desc: '여기는 피드 내용입니다.' },
-  { id: '6', image: 'https://via.placeholder.com/300x200', title: '피드 제목 6', desc: '여기는 피드 내용입니다.' },
-  { id: '7', image: 'https://via.placeholder.com/300x200', title: '피드 제목 7', desc: '여기는 피드 내용입니다.' },
-  { id: '8', image: 'https://via.placeholder.com/300x200', title: '피드 제목 8', desc: '여기는 피드 내용입니다.' },
-  { id: '9', image: 'https://via.placeholder.com/300x200', title: '피드 제목 9', desc: '여기는 피드 내용입니다.' },
-  { id: '10', image: 'https://via.placeholder.com/300x200', title: '피드 제목 10', desc: '여기는 피드 내용입니다.' },
-];
+import api from '../api';
 
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation();
+  const route = useRoute();
   const { schedules } = useSchedule();
-
-  // ✅ 오늘 날짜
   const today = new Date().toISOString().split('T')[0];
   const todaySchedules = schedules[today] || [];
 
-  // ✅ 피드 데이터 상태
-  const [feed, setFeed] = useState(dummyFeed);
+  const [feed, setFeed] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ 서버에서 피드 가져오기
-  useEffect(() => {
-    const fetchFeed = async () => {
-      try {
-        // ✅ 서버에 요청 (URL은 너네 서버 주소로 변경!)
-        const response = await axios.get('http://서버주소/posts?limit=10');
-        if (response.data && response.data.length > 0) {
-          setFeed(response.data);
-        } else {
-          // 데이터가 없으면 더미 사용
-          setFeed(dummyFeed);
-        }
-      } catch (error) {
-        console.error('서버 연결 실패, 더미 데이터 사용:', error);
-        setFeed(dummyFeed);
-      } finally {
-        setLoading(false);
+  const fetchFeed = async () => {
+    try {
+      const response = await api.get('/api/posts');
+      if (response.data && response.data.length > 0) {
+        const mappedFeed = response.data.map((post: any) => ({
+          id: post.id.toString(),
+          image: `http://10.0.2.2:8080/images/${post.imageUrl}`,
+          title: post.title,
+          desc: post.content,
+        }));
+        setFeed(mappedFeed);
+      } else {
+        setFeed([]);
       }
-    };
+    } catch (error) {
+      console.error('게시글 불러오기 실패:', error);
+      setFeed([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchFeed();
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      if ((route as any)?.params?.refresh) {
+        fetchFeed();
+        navigation.setParams?.({ refresh: false });
+      }
+    }, [(route as any)?.params?.refresh])
+  );
+
   return (
     <SafeAreaView style={styles.container}>
-      {/* 일정 카드 */}
       <View style={styles.scheduleCard}>
         <View style={styles.scheduleHeader}>
           <Text style={styles.date}>{today}</Text>
@@ -86,13 +82,11 @@ const HomeScreen: React.FC = () => {
         </View>
       </View>
 
-      {/* 로딩 표시 */}
       {loading ? (
         <ActivityIndicator size="large" color="#007AFF" style={{ marginTop: 20 }} />
       ) : (
-        // 피드 리스트
         <FlatList
-          data={feed.slice(0, 10)} // ✅ 최대 10개만 표시
+          data={feed}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={styles.feedCard}>
@@ -112,10 +106,7 @@ const HomeScreen: React.FC = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
+  container: { flex: 1, backgroundColor: '#fff' },
   scheduleCard: {
     backgroundColor: '#FFECEB',
     borderRadius: 12,
@@ -133,27 +124,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  date: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FF6F61',
-  },
-  plusButton: {
-    fontSize: 24,
-    color: '#FF6F61',
-    fontWeight: 'bold',
-  },
+  date: { fontSize: 18, fontWeight: 'bold', color: '#FF6F61' },
+  plusButton: { fontSize: 24, color: '#FF6F61', fontWeight: 'bold' },
   scheduleList: {
     borderTopWidth: 1,
     borderTopColor: '#FF6F61',
     paddingTop: 8,
     minHeight: 135,
   },
-  scheduleItem: {
-    fontSize: 16,
-    marginBottom: 6,
-    color: '#333',
-  },
+  scheduleItem: { fontSize: 16, marginBottom: 6, color: '#333' },
   feedCard: {
     backgroundColor: '#fff',
     marginHorizontal: 16,
@@ -162,19 +141,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     overflow: 'hidden',
   },
-  feedImage: {
-    width: '100%',
-    height: 200,
-  },
-  feedTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    padding: 8,
-  },
-  feedDesc: {
-    fontSize: 14,
-    color: '#555',
-    paddingHorizontal: 8,
-    paddingBottom: 8,
-  },
+  feedImage: { width: '100%', height: 200 },
+  feedTitle: { fontSize: 16, fontWeight: 'bold', padding: 8 },
+  feedDesc: { fontSize: 14, color: '#555', paddingHorizontal: 8, paddingBottom: 8 },
 });
