@@ -1,0 +1,43 @@
+/*buildscript {
+    ext {
+        buildToolsVersion = "35.0.0"
+        minSdkVersion = 24
+        compileSdkVersion = 35
+        targetSdkVersion = 34
+        ndkVersion = "27.1.12297006"
+        kotlinVersion = "1.9.22" // 안정적인 최신 버전 권장
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.4.0") // 🔧 명시적 버전 지정
+        classpath("com.facebook.react:react-native-gradle-plugin") // 이건 settings.gradle에서 includeBuild로 처리 중이라 없어도 됨
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22") // kotlinVersion과 맞춰줌
+    }
+}
+
+apply plugin: "com.facebook.react.rootproject"*/
+
+buildscript {
+    ext {
+        buildToolsVersion = "35.0.0"
+        minSdkVersion = 24
+        compileSdkVersion = 35
+        targetSdkVersion = 34
+        ndkVersion = "27.1.12297006"
+        kotlinVersion = "2.0.21"
+    }
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.android.tools.build:gradle")
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
+    }
+}
+
+apply plugin: "com.facebook.react.rootproject"
