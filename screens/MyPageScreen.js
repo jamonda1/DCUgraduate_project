@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,19 +7,37 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MyPageScreen = ({ navigation }) => {
-  // 임시 사용자 데이터
-  const userData = {
+  const [userData, setUserData] = useState({
     name: '홍길동',
     email: 'hong@example.com',
     profileImage: 'https://via.placeholder.com/100',
+  });
+
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    try {
+      const savedData = await AsyncStorage.getItem('userData');
+      if (savedData) {
+        setUserData(JSON.parse(savedData));
+      }
+    } catch (error) {
+      console.error('사용자 데이터 로딩 실패:', error);
+    }
   };
 
   return (
     <ScrollView style={styles.container}>
       {/* 프로필 섹션 */}
-      <View style={styles.profileSection}>
+      <TouchableOpacity 
+        style={styles.profileSection}
+        onPress={() => navigation.navigate('EditProfile')}
+      >
         <Image
           source={{ uri: userData.profileImage }}
           style={styles.profileImage}
@@ -27,8 +45,9 @@ const MyPageScreen = ({ navigation }) => {
         <View style={styles.profileInfo}>
           <Text style={styles.userName}>{userData.name}</Text>
           <Text style={styles.userEmail}>{userData.email}</Text>
+          <Text style={styles.editProfileText}>프로필 수정하기</Text>
         </View>
-      </View>
+      </TouchableOpacity>
 
       {/* 메뉴 섹션 */}
       <View style={styles.menuSection}>
@@ -105,6 +124,11 @@ const styles = StyleSheet.create({
   menuArrow: {
     fontSize: 20,
     color: '#999',
+  },
+  editProfileText: {
+    fontSize: 12,
+    color: '#007AFF',
+    marginTop: 5,
   },
 });
 
