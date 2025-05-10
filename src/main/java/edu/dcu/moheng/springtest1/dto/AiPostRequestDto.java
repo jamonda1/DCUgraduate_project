@@ -10,5 +10,5 @@ import java.util.List;
 public class AiPostRequestDto {     // 라마에 전달할 내용들
     private String title;           // 제목
     private List<String> keywords;  // 키워드
-    private String style;           // 본문의 스타일
+    private String writingStyle;    // 본문의 스타일
 }
