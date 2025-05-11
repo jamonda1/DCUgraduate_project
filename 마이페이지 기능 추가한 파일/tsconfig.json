@@ -1,0 +1,17 @@
+{
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "jsx": "react-native",
+    "strict": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "paths": {
+      "@screens/*": ["screens/*"]
+    }
+  },
+  "include": ["./screens", "./App.tsx"],
+  "exclude": ["node_modules"]
+}
