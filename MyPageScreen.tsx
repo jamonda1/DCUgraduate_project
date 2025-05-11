@@ -13,6 +13,9 @@ type RootStackParamList = {
   MyPage: undefined;
   EditProfile: undefined;
   Settings: undefined;
+  TravelHistory: undefined;
+  SavedTravel: undefined;
+  LikedTravel: undefined;
 };
 
 type MyPageScreenNavigationProp = StackNavigationProp<RootStackParamList, 'MyPage'>;
@@ -65,17 +68,26 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
           <Text style={styles.menuArrow}>›</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity 
+          style={styles.menuItem}
+          onPress={() => navigation.navigate('TravelHistory')}
+        >
           <Text style={styles.menuText}>내 여행 기록</Text>
           <Text style={styles.menuArrow}>›</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity 
+          style={styles.menuItem}
+          onPress={() => navigation.navigate('SavedTravel')}
+        >
           <Text style={styles.menuText}>저장한 여행</Text>
           <Text style={styles.menuArrow}>›</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity 
+          style={styles.menuItem}
+          onPress={() => navigation.navigate('LikedTravel')}
+        >
           <Text style={styles.menuText}>좋아요한 여행</Text>
           <Text style={styles.menuArrow}>›</Text>
         </TouchableOpacity>
