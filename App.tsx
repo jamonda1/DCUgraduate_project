@@ -22,6 +22,9 @@ import PostWriteScreen from './screens/PostWriteScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import RecommendScreen from './screens/RecommendScreen';
 import EditProfileScreen from './screens/EditProfileScreen';
+import TravelHistoryScreen from './screens/TravelHistoryScreen';
+import SavedTravelScreen from './screens/SavedTravelScreen';
+import LikedTravelScreen from './screens/LikedTravelScreen';
 
 
 const Stack = createStackNavigator();
@@ -83,6 +86,9 @@ const App: React.FC = () => {
           <Stack.Screen name="PostWrite" component={PostWriteScreen} options={{ title: '글 작성' }} />
           <Stack.Screen name="Settings" component={SettingsScreen} options={{ title: '설정' }} />
           <Stack.Screen name="Recommend" component={RecommendScreen} options={{ title: '설정' }} />
+          <Stack.Screen name="TravelHistory" component={TravelHistoryScreen} options={{ title: '내 여행 기록' }} />
+          <Stack.Screen name="SavedTravel" component={SavedTravelScreen} options={{ title: '저장한 여행' }} />
+          <Stack.Screen name="LikedTravel" component={LikedTravelScreen} options={{ title: '좋아요한 여행' }} />
         </Stack.Navigator>
         <ConditionalTabBar />
       </NavigationContainer>
