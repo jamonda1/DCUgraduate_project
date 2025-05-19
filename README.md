@@ -40,9 +40,10 @@
 
 [화면 설명]
 
-[API 설명](https://github.com/jamonda1/DCUgraduate_project/tree/back-end)
+[API 설명]
 
 ## 아쉬웠던 부분
 
 
 [화면 설명]: <https://github.com/jamonda1/DCUgraduate_project/tree/front-end>
+[API 설명]: <https://github.com/jamonda1/DCUgraduate_project/tree/back-end>
