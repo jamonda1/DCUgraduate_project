@@ -39,10 +39,20 @@
 
 
 ### 메인 제공 기능
-[![ReactNative](https://github.com/jamonda1/DCUgraduate_project/blob/main/images/ReactNative.png?raw=true)](https://reactnative.dev/)
-[![SpringBoot](https://github.com/jamonda1/DCUgraduate_project/blob/main/images/SpringBoot.png?raw=true)](https://spring.io/)
-
-<image src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/SpringBoot.png?raw=true" width="100" height="50"/>
+<p float="left">
+  <a href="https://reactnative.dev/" target="_blank">
+    <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/ReactNative.png?raw=true" width="150" style="margin-right: 10px;"/>
+  </a>
+  <a href="https://spring.io/projects/spring-boot" target="_blank">
+    <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/SpringBoot.png?raw=true" width="150" style="margin-right: 10px;"/>
+  </a>
+  <a href="https://www.mysql.com/" target="_blank">
+    <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/MySQL.png?raw=true" width="150" style="margin-right: 10px;"/>
+  </a>
+  <a href="https://www.java.com/" target="_blank">
+    <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/Java.png?raw=true" width="150"/>
+  </a>
+</p>
 
 [화면 설명]
 
