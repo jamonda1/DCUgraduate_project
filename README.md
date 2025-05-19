@@ -8,5 +8,5 @@
 ## 목차
 - **개요**
 - **기능 설명** 
- - **front-end**
- - **back-end**
+  - **front-end**
+  - **back-end**
