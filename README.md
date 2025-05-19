@@ -39,8 +39,8 @@
 
 
 ### 메인 제공 기능
-[![ReactNative](https://reactnative.dev/img/header_logo.svg)](https://reactnative.dev/)
-[![SpringBoot](https://spring.io/img/projects/spring-boot.svg)](https://spring.io/)
+[![ReactNative](https://github.com/jamonda1/DCUgraduate_project/blob/main/images/ReactNative.png?raw=true)](https://reactnative.dev/)
+[![SpringBoot](https://github.com/jamonda1/DCUgraduate_project/blob/main/images/SpringBoot.png?raw=true)](https://spring.io/)
 
 [화면 설명]
 
