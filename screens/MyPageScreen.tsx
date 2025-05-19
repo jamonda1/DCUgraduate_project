@@ -13,6 +13,9 @@ type RootStackParamList = {
   MyPage: undefined;
   EditProfile: undefined;
   Settings: undefined;
+  TravelHistory: undefined;
+  SavedTravel: undefined;
+  LikedTravel: undefined;
 };
 
 type MyPageScreenNavigationProp = StackNavigationProp<RootStackParamList, 'MyPage'>;
@@ -38,10 +41,7 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       {/* 프로필 섹션 */}
-      <TouchableOpacity 
-        style={styles.profileSection}
-        onPress={() => navigation.navigate('EditProfile')}
-      >
+      <View style={styles.profileSection}>
         <Image
           source={{ uri: userData.profileImage }}
           style={styles.profileImage}
@@ -49,9 +49,14 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
         <View style={styles.profileInfo}>
           <Text style={styles.userName}>{userData.name}</Text>
           <Text style={styles.userEmail}>{userData.email}</Text>
-          <Text style={styles.editProfileText}>프로필 수정하기</Text>
+          <TouchableOpacity 
+            style={styles.editButton}
+            onPress={() => navigation.navigate('EditProfile')}
+          >
+            <Text style={styles.editButtonText}>프로필 수정</Text>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      </View>
 
       {/* 메뉴 섹션 */}
       <View style={styles.menuSection}>
@@ -63,17 +68,26 @@ const MyPageScreen: React.FC<MyPageScreenProps> = ({ navigation }) => {
           <Text style={styles.menuArrow}>›</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity 
+          style={styles.menuItem}
+          onPress={() => navigation.navigate('TravelHistory')}
+        >
           <Text style={styles.menuText}>내 여행 기록</Text>
           <Text style={styles.menuArrow}>›</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity 
+          style={styles.menuItem}
+          onPress={() => navigation.navigate('SavedTravel')}
+        >
           <Text style={styles.menuText}>저장한 여행</Text>
           <Text style={styles.menuArrow}>›</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity 
+          style={styles.menuItem}
+          onPress={() => navigation.navigate('LikedTravel')}
+        >
           <Text style={styles.menuText}>좋아요한 여행</Text>
           <Text style={styles.menuArrow}>›</Text>
         </TouchableOpacity>
@@ -111,10 +125,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
-  editProfileText: {
-    fontSize: 12,
-    color: '#007AFF',
-    marginTop: 5,
+  editButton: {
+    backgroundColor: '#007AFF',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    marginTop: 8,
+    alignSelf: 'flex-start',
+  },
+  editButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '600',
   },
   menuSection: {
     marginTop: 20,
