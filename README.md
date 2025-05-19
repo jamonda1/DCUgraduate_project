@@ -39,7 +39,7 @@
 
 
 ### 메인 제공 기능
-[![ReactNative](https://reactnative.dev/img/header_logo.svg)
+[![ReactNative](https://reactnative.dev/img/header_logo.svg)](https://reactnative.dev/)
 
 
 [화면 설명]
