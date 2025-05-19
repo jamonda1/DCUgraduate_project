@@ -36,9 +36,6 @@
 
 ## 기능 설명
 ### 사용 기술
-
-
-### 메인 제공 기능
 <p float="left">
   <a href="https://reactnative.dev/" target="_blank">
     <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/ReactNative.png?raw=true" width="150" style="margin-right: 10px;"/>
@@ -53,6 +50,9 @@
     <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/Java.png?raw=true" width="150"/>
   </a>
 </p>
+
+### 메인 제공 기능
+
 
 [화면 설명]
 
