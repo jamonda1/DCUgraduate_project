@@ -8,8 +8,8 @@
 ## 목차
 - [개요](#개요)
 - [기능 설명](#기능-설명)
-  - [front-end]
-  - [back-end]
+  - [화면 설명](#화면-설명)
+  - [API 설명](#API-설명)
 - [아쉬웠던 부분](#아쉬웠던-부분)
 
 ## 프로젝트 소개
@@ -38,8 +38,11 @@
 
 
 
-[front-end 바로가기](https://github.com/jamonda1/DCUgraduate_project/tree/front-end)
+[화면 설명]
 
-[back-end 바로가기](https://github.com/jamonda1/DCUgraduate_project/tree/back-end)
+[API 설명](https://github.com/jamonda1/DCUgraduate_project/tree/back-end)
 
 ## 아쉬웠던 부분
+
+
+[화면 설명]: <https://github.com/jamonda1/DCUgraduate_project/tree/front-end>
