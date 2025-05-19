@@ -8,8 +8,8 @@
 ## 목차
 - [개요](#개요)
 - [기능 설명](#기능-설명)
-  - [front-end](#front-end)
-  - [back-end](#back-end)
+  - [front-end]
+  - [back-end]
 - [아쉬웠던 부분](#아쉬웠던-부분)
 
 ## 프로젝트 소개
