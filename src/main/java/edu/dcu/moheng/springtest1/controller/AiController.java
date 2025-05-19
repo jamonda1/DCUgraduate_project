@@ -25,7 +25,7 @@ public class AiController {
         String style = dto.getWritingStyle();
 
         String prompt = String.format("""
-            네가 여행 블로그를 작성한다고 생각하고 Title과 Keywords, Style을 참고해서 100 글자 정도의 본문을 작성해줘. 최대한 자연스러운 한국어로 부탁해
+            네가 여행 블로그를 작성한다고 생각하고 Title과 Keywords, Style을 참고해서 100 글자 정도의 본문을 작성해줘. 최대한 자연스러운 한국어로 부탁해. 그리고 본문이 사작되기 전에 글에 대한 설명은 없어도 괜찮아!! 바로 본문이 시작되도록 해줘!!!
             
             Title: %s
             Keywords: %s
