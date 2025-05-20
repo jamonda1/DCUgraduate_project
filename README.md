@@ -64,7 +64,7 @@
 |메인 화면|일정 작성|AI 일정 추천|게시글 작성|AI 본문 작성|
 |------|------|------|------|------|
 |<img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/%E1%84%86%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%92%E1%85%AA%E1%84%86%E1%85%A7%E1%86%AB.png?raw=true" width="150"/>|<img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8E%E1%85%AE%E1%84%80%E1%85%A1%E1%84%92%E1%85%AA%E1%84%86%E1%85%A7%E1%86%AB.png?raw=true" width="150"/>|<img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/AI%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%8C%E1%85%A1%E1%86%A8%E1%84%89%E1%85%A5%E1%86%BC.png?raw=true" width="150"/>|<img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/%E1%84%91%E1%85%A9%E1%84%89%E1%85%B3%E1%84%90%E1%85%B3%E1%84%89%E1%85%A6%E1%86%BA%E1%84%8B%E1%85%A5%E1%86%B8%E1%84%8B%E1%85%A6%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB%E1%84%8E%E1%85%AE%E1%84%80%E1%85%A1.png?raw=true" width="150"/>|<img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/AI%E1%84%80%E1%85%A6%E1%84%89%E1%85%B5%E1%84%80%E1%85%B3%E1%86%AF.png?raw=true" width="150"/>
-</div>|
+</div>
 |상단에서는 간단한 일정, 하단에서는 게시글 확인|시작 시간과 종료 시간을 입력|장소를 입력한 후 추천 받기|사진과 제목, 키워드를 입력|버튼을 통해 AI 초안 받기|
 
 
