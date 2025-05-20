@@ -40,16 +40,16 @@
 ### 사용 기술
 <p float="left">
   <a href="https://reactnative.dev/" target="_blank">
-    <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/ReactNative.png?raw=true" width="150" style="margin-right: 10px;"/>
+    <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/ReactNative.png?raw=true" width="100" style="margin-right: 10px;"/>
   </a>
   <a href="https://spring.io/projects/spring-boot" target="_blank">
-    <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/SpringBoot.png?raw=true" width="300" style="margin-right: 10px;"/>
+    <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/SpringBoot.png?raw=true" width="200" style="margin-right: 10px;"/>
   </a>
   <a href="https://www.mysql.com/" target="_blank">
-    <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/MySQL.png?raw=true" width="150" style="margin-right: 10px;"/>
+    <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/MySQL.png?raw=true" width="100" style="margin-right: 10px;"/>
   </a>
   <a href="https://www.java.com/" target="_blank">
-    <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/Java.png?raw=true" width="150"/>
+    <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/Java.png?raw=true" width="100"/>
   </a>
 </p>
 
