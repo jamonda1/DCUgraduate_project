@@ -38,7 +38,7 @@
 
 ## 기능 설명
 ### 사용 기술
-
+<div align=center>**📚 기술 스택**</div>
 <div align=center> 
   <img src="https://img.shields.io/badge/reactnative-61DAFB?style=for-the-badge&logo=react&logoColor=black"> 
   <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> 
