@@ -38,7 +38,6 @@
 
 ## 기능 설명
 ### 사용 기술
-<div align=center><h1>📚 STACKS</h1></div>
 
 <div align=center> 
   <img src="https://img.shields.io/badge/reactnative-61DAFB?style=for-the-badge&logo=react&logoColor=black"> 
