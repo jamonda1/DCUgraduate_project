@@ -72,7 +72,7 @@
 **[API 설명]** - back-end branch로 이동
 
 ## 🔧아쉬웠던 부분
-
+- 내 정보 수정 / 화면 설정 / 내 여행 기록 / 저장한 여행 / 좋아요한 여행 기능 미구현
 
 [화면 설명]: <https://github.com/jamonda1/DCUgraduate_project/tree/front-end>
 [API 설명]: <https://github.com/jamonda1/DCUgraduate_project/tree/back-end>
