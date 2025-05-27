@@ -19,7 +19,7 @@
 
 개발 기간: 2024.09.02 ~ 2025.05.10
 
-개발 인원: 4명 (박승진, 이상엽, 이동훈, 정세익)
+개발 인원: 4명 ([박승진], [이상엽], [이동훈], [정세익])
 
 캡스톤 디자인 전시회: 2024.12.03  |  2025.06.03
 
@@ -77,5 +77,9 @@
 - 게시글 상세 보기 미구현
 - AWS를 이용하여 배포하지 않고, 로컬 환경에서만 구동 가능한 것
 
+[박승진]: <https://github.com/jamonda1>
+[이상엽]: <https://github.com/pend3285>
+[이동훈]: <https://github.com/dh3696>
+[정세익]: <https://github.com/jsi01112>
 [화면 설명]: <https://github.com/jamonda1/DCUgraduate_project/tree/front-end>
 [API 설명]: <https://github.com/jamonda1/DCUgraduate_project/tree/back-end>
