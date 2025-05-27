@@ -1,7 +1,7 @@
 # 모행 백엔드입니다.
 
 ## 프로젝트 구조
-'''shell
+```shell
 ├── config
 │   ├── SecurityConfig.java
 │   └── WebConfig.java
@@ -45,6 +45,6 @@
 └── util
     ├── ImageMetadataExtractor.java
     └── ImageUploadResult.java
-'''
+```
 
 ## API 설명
