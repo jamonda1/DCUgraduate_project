@@ -5,9 +5,10 @@
  <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/1.png?raw=true" width="700"/>
 </div>
 
-![모행 홍보 영상](https://github.com/user-attachments/assets/8dddcafb-60d1-4a71-b9e6-9d5bff797887)
+**모행 홍보 및 기능 설명 영상**
+https://github.com/user-attachments/assets/8dddcafb-60d1-4a71-b9e6-9d5bff797887
 
-![모행 기능 영성](https://github.com/user-attachments/assets/7008693c-d431-4640-aa76-d6f9a1f3d094)
+https://github.com/user-attachments/assets/7008693c-d431-4640-aa76-d6f9a1f3d094
 
 
 
