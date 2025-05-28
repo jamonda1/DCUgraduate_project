@@ -5,6 +5,13 @@
  <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/1.png?raw=true" width="700"/>
 </div>
 
+
+
+https://github.com/user-attachments/assets/c9a9373f-90ea-4e90-b042-a9bec528f423
+
+
+
+
 ## 🗒️목차
 - [프로젝트 소개](#프로젝트-소개)
 - [기능 설명](#⚙기능-설명)
