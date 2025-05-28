@@ -1,10 +1,6 @@
 # [모행] 대구가톨릭대학교 캡스톤디자인 과제
 ## 🛫모행 - 모두의 여행
 &nbsp;'모행'은 AI를 활용하여 일정과 게시글을 작성할 수 있는 애플리케이션입니다.
-<div align=center> 
- <img src="https://github.com/jamonda1/DCUgraduate_project/blob/main/images/1.png?raw=true" width="700"/>
-</div>
-
 
 # [모행 홍보 및 기능 설명 영상]
 https://github.com/user-attachments/assets/8dddcafb-60d1-4a71-b9e6-9d5bff797887
@@ -19,7 +15,7 @@ https://github.com/user-attachments/assets/7008693c-d431-4640-aa76-d6f9a1f3d094
 
 ## 🗒️목차
 - [프로젝트 소개](#프로젝트-소개)
-- [기능 설명](#⚙기능-설명)
+- [기능 설명](#기능-설명)
   - [화면 설명](#화면-설명)
   - [API 설명](#API-설명)
 - [아쉬웠던 부분](#아쉬웠던-부분)
