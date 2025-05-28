@@ -51,7 +51,7 @@
 
 ## API 설명
 
-**Class: AiController**
+**Class: ₩₩₩AiController₩₩₩**
 
 **URL: ```/api/ai/generate-post```**
 
