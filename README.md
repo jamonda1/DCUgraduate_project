@@ -50,3 +50,13 @@
 ```
 
 ## API 설명
+
+**Class: AiController**
+
+**URL: /api/ai/generate-post**
+
+**Method: POST**
+
+```c
+{}
+```c
