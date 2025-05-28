@@ -53,7 +53,7 @@
 
 **Class: AiController**
 
-**URL: ```c/api/ai/generate-post```**
+**URL: ```/api/ai/generate-post```**
 
 **Method: POST**
 
