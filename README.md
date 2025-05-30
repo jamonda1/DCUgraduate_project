@@ -97,7 +97,7 @@
 }
 ```
 ---
-### 3. 사진을 업로드하고 해당 시간과 장소의 날씨 정보 리턴
+### 3. 사진과 게시글을 업로드하는 엔드포인트
 
 **Class: ```PostController```**
 
@@ -108,13 +108,29 @@
 **예시 입력값**
 ```c
 {
-  file: <사용자가 게시글 업로드에 선택한 이미지 파일>
+  file	    MultipartFile	osaka-trip.jpg (이미지 파일)
+  title	    String	        오사카 여행의 추억
+  content	String	        유니버설 스튜디오와 도톤보리에서의 하루는 너무 행복했어요.
+  keywords	List<String>    ["유니버설", "도톤보리", "타코야끼"]
+  style	    String	        감성적인
+  hashtags	List<String>	["#오사카", "#여행", "#맛집"]
+  weather	String	        맑음(22°C)
 }
 ```
 **예시 출력값**
 ```c
 {
-  업로드 성공: <업로드 된 파일 이름> | 날씨: 맑음(22°C)
+  "id": 101,
+  "title": "오사카 여행의 추억",
+  "content": "유니버설 스튜디오와 도톤보리에서의 하루는 너무 행복했어요.",
+  "keywords": ["유니버설", "도톤보리", "타코야끼"],
+  "style": "감성적인",
+  "hashtags": ["#오사카", "#여행", "#맛집"],
+  "imageUrl": "https://your-server.com/images/osaka-trip.jpg",
+  "weather": "맑음(22°C)",
+  "uploadDate": "2025-05-28T14:00:00",
+  "authorNickname": "seungjin"
 }
+
 ```
 
