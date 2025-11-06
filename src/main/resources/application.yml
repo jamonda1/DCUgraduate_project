@@ -5,8 +5,8 @@ server:
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/dcuproject?serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
-    username: root
-    password: parksj5674
+    username: --
+    password: --
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       connection-init-sql: SET NAMES utf8mb4
@@ -25,7 +25,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
 weather:
-  apikey: 4957375d0a6aca2f78576ef69f627509
+  apikey: --
 
 ollama:
   api:
@@ -33,7 +33,7 @@ ollama:
 
 google:
   places:
-    api-key: AIzaSyAZc_IfL1Ke22wgSeXjtCNd0k8Awd2unsE
+    api-key: --
 
 openai:
-  api-key: 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
+  api-key: --
